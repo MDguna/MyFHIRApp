@@ -14,11 +14,11 @@ Find more information regarding FHIR apps on https://medium.com/@mdguna
 npm install
 ```
 
-### Browse FHIR app
+### Browse FHIR app in <b>chrome broswer<b>
 ```
 ionic serve
 or
-npm start
+ng serve --open
 ```
 ### Demo
 https://medium.com/@mdguna/fhir-startup-guide-56c381b93f33
