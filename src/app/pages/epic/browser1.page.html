@@ -1,0 +1,65 @@
+
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>Epic FHIR integration</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list lines="full" padding>
+
+    <ion-card *ngIf="username">
+
+      <ion-item>
+          <ion-avatar item-left item-right>
+                <img src="https://avatars.io/static/default_128.jpg">
+          </ion-avatar>
+      
+          <p>Username: {{username}}</p>
+          <ion-note item-right>
+            Last login: 11h ago
+          </ion-note>
+      </ion-item>
+      <ion-card-content>
+          <p>This app demonstrates how to authenticate and access protected FHIR resources.</p>
+      </ion-card-content>
+  </ion-card>
+
+    <ion-item color="danger" *ngIf="error">
+      {{error | json }}
+    </ion-item>
+    <div  style="height:100px;" *ngIf="!hasLoggedIn">
+    <ion-label style="margin:10px;" position="floating">app / client_id</ion-label>
+    <ion-input style="border:3px solid greenyellow;margin:10px;"  clearInput [(ngModel)]="clientId" type="text" placeholder="Enter your app / client_id"></ion-input>
+    </div>
+    <div  style="height:100px;" *ngIf="!hasLoggedIn">
+    <ion-label style="margin:10px;" position="floating">FHIR endpoint</ion-label>
+    <ion-input style="border:3px solid greenyellow;margin:10px;"  clearInput [(ngModel)]="FHIR" type="text" placeholder="Enter Epic FHIR endpoint"></ion-input>
+    </div>
+    <div  style="height:100px;" *ngIf="!hasLoggedIn">
+    <ion-label style="margin:10px;" position="floating">Redirect URL</ion-label>
+    <ion-input style="border:3px solid greenyellow;margin:10px;"  clearInput [(ngModel)]="redirectURL" type="text" placeholder="Enter redirect url"></ion-input>
+    </div>
+    <div *ngIf="!hasLoggedIn">
+    <ion-button expand="block" *ngIf="!hasLoggedIn" ion-button block (click)="browserOpen()" color="primary">
+      Connect to Epic
+    </ion-button>
+    </div>
+   
+  
+  </ion-list>
+
+  <ion-searchbar *ngIf="hasLoggedIn" animated debounce="700" placeholder="Enter patient's last name Ex: jason" showCancelButton="true"
+  (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-list lines="full" *ngIf="searchResults">
+      <ion-list-header>Search Results</ion-list-header>
+      <ion-item *ngFor="let patient of searchResults">
+        {{patient.resource.name[0].text}}
+      </ion-item>
+    </ion-list>
+</ion-content>

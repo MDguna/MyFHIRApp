@@ -1,0 +1,72 @@
+
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title>Cerner FHIR Integration</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  
+  <ion-list lines="full" padding>
+
+    <ion-card *ngIf="username">
+
+      <ion-item>
+          <ion-avatar item-left item-right>
+                <img src="https://avatars.io/static/default_128.jpg">
+          </ion-avatar>
+          <!-- <ion-spinner *ngIf="!user.name" ></ion-spinner>
+          <h2 *ngIf="user.name">{{user.name?.text}}</h2> -->
+          <p>Username: {{username}}</p>
+          <ion-note item-right>
+            Last login: 11h ago
+          </ion-note>
+      </ion-item>
+      <ion-card-content>
+          <p>This app demonstrates how to authenticate and access protected FHIR resources.</p>
+      </ion-card-content>
+  </ion-card>
+
+    <ion-item color="danger" *ngIf="error">
+      {{error | json }}
+    </ion-item>
+    <div style="height:100px;" *ngIf="!hasLoggedIn">
+    <ion-label  style="margin:10px;" position="floating">app / client_id</ion-label>
+    <br>
+    <ion-input style="border:3px solid greenyellow;margin:10px;"  clearInput [(ngModel)]="clientId"  type="text" placeholder="Enter your app / client_id"></ion-input>
+    </div>
+    <div style="height:100px;" *ngIf="!hasLoggedIn">
+    <ion-label style="margin:10px;"  position="floating">FHIR Tenant ID</ion-label>
+    <br>
+    <ion-input style="border:3px solid greenyellow;margin:10px;"   clearInput [(ngModel)]="tenantId" type="text" placeholder="Enter Epic FHIR endpoint"></ion-input>
+    </div>
+    <div style="height:100px;" *ngIf="!hasLoggedIn">
+      <ion-label style="margin:10px;"  position="floating">Scope</ion-label>
+      <br>
+      <ion-input style="border:3px solid greenyellow;margin:10px;"   clearInput [(ngModel)]="scope" type="text" placeholder="Enter scope"></ion-input>
+    </div>
+    <!-- <div *ngIf="!hasLoggedIn">
+    <ion-label position="floating">Redirect URL</ion-label>
+    <ion-input style="border:3px solid greenyellow;"  [(ngModel)]="redirectURL" type="text" placeholder="Enter redirect url"></ion-input>
+    </div> -->
+    <div *ngIf="!hasLoggedIn">
+    <ion-button expand="block" *ngIf="!hasLoggedIn" ion-button block (click)="browserOpen()" color="primary">
+      Login
+    </ion-button>
+   </div>
+
+  </ion-list>
+
+  <ion-searchbar *ngIf="hasLoggedIn" animated debounce="700" placeholder="Enter patient's last name Ex: test" showCancelButton="true"
+    (ionInput)="search($event)"></ion-searchbar>
+
+  <ion-list lines="full" *ngIf="searchResults">
+      <ion-list-header>Search Results</ion-list-header>
+      <ion-item *ngFor="let patient of searchResults">
+        {{patient.resource.name[0].text}}
+      </ion-item>
+    </ion-list>
+</ion-content>
